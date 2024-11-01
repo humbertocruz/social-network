@@ -16,7 +16,6 @@ export default async function ProtectedLayout({
 
   return (
     <div>
-      <Navbar />
       <main>{children}</main>
     </div>
   )

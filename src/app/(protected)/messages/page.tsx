@@ -4,7 +4,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useAuth } from '@/providers/auth-provider'
 import { format } from 'date-fns'
-import { useToast } from '@/components/ui/use-toast'
+import { useToast } from '@/hooks/use-toast'
 import {
   Card,
   CardContent,
@@ -66,7 +66,7 @@ export default function MessagesPage() {
   const imageInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    if (user?.role !== 'PREMIUM') {
+    if (user?.role !== 'PREMIUM' && user?.role !== 'ADMIN') {
       toast({
         title: "Premium Feature",
         description: "Chat is only available for premium users.",

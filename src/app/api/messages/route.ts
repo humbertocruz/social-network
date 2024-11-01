@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const user = await verifyAuth(token)
-    if (user.role !== 'PREMIUM') {
+    if (user.role !== 'PREMIUM' && user.role !== 'ADMIN') {
       return NextResponse.json(
         { error: 'Premium feature only' },
         { status: 403 }

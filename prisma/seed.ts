@@ -10,6 +10,7 @@ async function main() {
   const admin = await prisma.user.create({
     data: {
       email: 'admin@vibe.com',
+      username: 'vibe-admin',
       password: hashedPassword,
       role: 'ADMIN',
       profiles: {
