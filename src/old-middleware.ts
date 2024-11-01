@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { verifyAuth } from '@/lib/auth'
 import { FREE_USER_SESSION_TIME } from '@/lib/constants'
 
-export async function middleware(request: NextRequest) {
+export async function oldMiddleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value
   
   if (!token) {

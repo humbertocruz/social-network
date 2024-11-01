@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { InviteForm } from '@/components/InviteForm'
 import { InvitationList } from '@/components/InvitationList'
 import { InvitationStats } from '@/components/InvitationStats'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 
 export default function InvitationsPage() {
   return (

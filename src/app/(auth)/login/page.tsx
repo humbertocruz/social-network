@@ -26,6 +26,7 @@ export default function LoginPage() {
       // Add login logic here
       toast({
         title: "Success",
+        variant: "default",
         description: "You've successfully logged in.",
       })
     } catch (error) {
@@ -124,15 +125,6 @@ export default function LoginPage() {
               </form>
             </CardContent>
           </Card>
-          <p className="px-8 text-center text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
-            <Link
-              href="/register"
-              className="underline underline-offset-4 hover:text-primary"
-            >
-              Register
-            </Link>
-          </p>
         </div>
       </div>
     </div>
