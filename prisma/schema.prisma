@@ -1,0 +1,198 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  FREE
+  TESTER
+  PREMIUM
+}
+
+enum ProfileType {
+  HE
+  SHE
+}
+
+model Profile {
+  id          String      @id @default(cuid())
+  type        ProfileType
+  name        String
+  bio         String?
+  avatar      String?
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Post {
+  id        String    @id @default(cuid())
+  content   String
+  images    Image[]   @relation("PostImages")
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  comments  Comment[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  images    Image[]  @relation("CommentImages")
+  userId    String
+  postId    String
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Image {
+  id        String    @id @default(cuid())
+  url       String
+  postId    String?
+  commentId String?
+  post      Post?     @relation("PostImages", fields: [postId], references: [id])
+  comment   Comment?  @relation("CommentImages", fields: [commentId], references: [id])
+  ratings   Rating[]
+  createdAt DateTime  @default(now())
+}
+
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String
+  followingId String
+  follower    User     @relation("follower", fields: [followerId], references: [id])
+  following   User     @relation("following", fields: [followingId], references: [id])
+  createdAt   DateTime @default(now())
+
+  @@unique([followerId, followingId])
+}
+
+model Block {
+  id        String   @id @default(cuid())
+  blockerId String
+  blockedId String
+  blocker   User     @relation("blocking", fields: [blockerId], references: [id])
+  blocked   User     @relation("blocked", fields: [blockedId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([blockerId, blockedId])
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  content    String
+  senderId   String
+  receiverId String
+  sender     User     @relation("sentMessages", fields: [senderId], references: [id])
+  receiver   User     @relation("receivedMessages", fields: [receiverId], references: [id])
+  read       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  date        DateTime
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Gallery {
+  id        String   @id @default(cuid())
+  type      String   // "image" or "video"
+  url       String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Payment {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  amount       Float
+  status       String
+  asaasId      String   @unique
+  description  String
+  createdAt    DateTime @default(now())
+}
+
+model Rating {
+  id        String   @id @default(cuid())
+  value     Int
+  userId    String
+  ratedId   String?
+  imageId   String?
+  user      User     @relation("Rater", fields: [userId], references: [id])
+  ratedUser User?    @relation("RatedUser", fields: [ratedId], references: [id])
+  image     Image?   @relation(fields: [imageId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, imageId])
+  @@unique([userId, ratedId])
+}
+
+model User {
+  id              String       @id @default(cuid())
+  email           String       @unique
+  password        String
+  role            UserRole     @default(FREE)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  testerExpires   DateTime?
+  lastOnline      DateTime     @default(now())
+  profiles        Profile[]
+  posts           Post[]
+  comments        Comment[]
+  followers       Follow[]     @relation("following")
+  following       Follow[]     @relation("follower")
+  blocked         Block[]      @relation("blocking")
+  blockedBy       Block[]      @relation("blocked")
+  messages        Message[]    @relation("sentMessages")
+  receivedMsgs    Message[]    @relation("receivedMessages")
+  events          Event[]
+  payments        Payment[]
+  gallery         Gallery[]
+  receivedRatings Rating[]     @relation("RatedUser")
+  givenRatings    Rating[]     @relation("Rater")
+  
+  // Invitation relationships
+  sentInvitations     Invitation[] @relation("SentInvitations")
+  receivedInvitation  Invitation?  @relation("ReceivedInvitation")
+  
+  // Invitation tree tracking
+  invitationLevel    Int          @default(0)
+  invitationPath     String       @default("")
+}
+
+model Invitation {
+  id          String    @id @default(cuid())
+  email       String
+  code        String    @unique
+  isUsed      Boolean   @default(false)
+  
+  // Inviter relationship
+  inviterId   String
+  inviter     User      @relation("SentInvitations", fields: [inviterId], references: [id])
+  
+  // Invited user relationship (only set after registration)
+  invitedUserId String?  @unique
+  invitedUser   User?    @relation("ReceivedInvitation", fields: [invitedUserId], references: [id])
+  
+  createdAt   DateTime  @default(now())
+  expiresAt   DateTime
+  usedAt      DateTime?
+}
