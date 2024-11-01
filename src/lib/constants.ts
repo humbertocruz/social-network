@@ -1,0 +1,5 @@
+const FREE_USER_SESSION_TIME = (5 * 60)
+
+export {
+    FREE_USER_SESSION_TIME
+}

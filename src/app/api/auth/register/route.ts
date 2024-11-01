@@ -56,7 +56,6 @@ export async function POST(req: Request) {
     }
 
     // Create user and update invitation in a transaction
-    //@ts-expect-error tx not know
     const user = await prisma.$transaction(async (tx) => {
       // Calculate invitation level and path
       const invitationLevel = invitation.inviter.invitationLevel + 1
