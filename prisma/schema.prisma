@@ -89,7 +89,9 @@ model Block {
 
 model Message {
   id         String   @id @default(cuid())
-  content    String
+  content    String?
+  image      String?  // Add this field for image URLs
+  type       String   @default("text") // "text" or "image"
   senderId   String
   receiverId String
   sender     User     @relation("sentMessages", fields: [senderId], references: [id])
