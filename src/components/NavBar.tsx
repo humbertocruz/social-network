@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { ThemeSwitch } from "@/components/theme-switch"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export function Navbar() {
@@ -33,12 +34,13 @@ export function Navbar() {
             <Link href="/events">
               <Button variant="ghost">Events</Button>
             </Link>
+            <ThemeSwitch />
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar>
-                  <AvatarImage src={user.profiles[0]?.avatar} />
+                  <AvatarImage src={user.profiles[0].avatar} />
                   <AvatarFallback>
-                    {user.profiles[0]?.name[0]}
+                    {user.profiles[0].name[0]}
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
@@ -68,6 +70,7 @@ export function Navbar() {
           </div>
         ) : (
           <div className="flex items-center gap-4">
+            <ThemeSwitch /> {/* Add theme switch here */}
             <Link href="/login">
               <Button variant="ghost">Login</Button>
             </Link>

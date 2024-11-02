@@ -36,7 +36,7 @@ export function InvitationList() {
 
   useEffect(() => {
     loadInvitations()
-  }, [])
+  })
 
   const loadInvitations = async () => {
     try {
@@ -52,6 +52,7 @@ export function InvitationList() {
       const data = await res.json()
       setInvitations(data.invitations)
     } catch (error) {
+      console.error('Error loading invitations:', error)
       toast({
         title: 'Error',
         description: 'Failed to load invitations',
@@ -83,7 +84,7 @@ export function InvitationList() {
               <TableRow key={invitation.id}>
                 <TableCell>{invitation.email}</TableCell>
                 <TableCell>
-                  <Badge variant={invitation.isUsed ? "success" : "secondary"}>
+                  <Badge variant={invitation.isUsed ? "default" : "secondary"}>
                     {invitation.isUsed ? 'Used' : 'Pending'}
                   </Badge>
                 </TableCell>

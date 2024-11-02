@@ -75,8 +75,8 @@ export default function LoginPage() {
         title: "Welcome back!",
         description: "You've successfully logged in.",
       })
+      router.push('/profile-select') // Instead of directly to dashboard
 
-      router.push('/profile')
     } catch (error) {
       toast({
         title: "Error",

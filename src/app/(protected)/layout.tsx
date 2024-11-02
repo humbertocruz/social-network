@@ -1,7 +1,6 @@
 // src/app/(protected)/layout.tsx
 import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth'
-import { Navbar } from '@/components/Navbar'
 
 export default async function ProtectedLayout({
   children,
