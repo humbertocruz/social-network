@@ -1,82 +1,85 @@
-'use client'
+// src/components/Navbar.tsx
+"use client"
 
-import Link from 'next/link'
-import { useAuth } from '@/providers/auth-provider'
-import { Button } from '@/components/ui/button'
-import { Logo } from '@/components/Logo'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { ThemeSwitch } from "@/components/theme-switch"
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { MobileNav } from "./MobileNav"
+import { ThemeSwitch } from "./theme-switch"
+
+import { LanguageSwitcher } from './LanguageSwitcher';
+
+import { Logo } from "./Logo"
+import { UserNav } from "./user-nav"
+import { useAuth } from "@/providers/auth-provider"
+import Link from "next/link"
+import { Button } from "./ui/button"
+import { cn } from "@/lib/utils"
+
+const routes = [
+  {
+    href: "/dashboard",
+    label: "Dashboard"
+  },
+  {
+    href: "/messages",
+    label: "Messages"
+  },
+  {
+    href: "/gallery",
+    label: "Gallery"
+  },
+  {
+    href: "/radar",
+    label: "Radar"
+  },
+  {
+    href: "/top",
+    label: "Top"
+  }
+]
 
 export function Navbar() {
-  const { user, logout } = useAuth()
-
+  const { user } = useAuth()
   return (
-    <nav className="border-b bg-background">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <Logo className="w-8 h-8" />
-          <span className="font-bold text-xl">Vibe</span>
-        </Link>
-
-        {user ? (
-          <div className="flex items-center gap-4">
-            <Link href="/messages">
-              <Button variant="ghost">Messages</Button>
-            </Link>
-            <Link href="/events">
-              <Button variant="ghost">Events</Button>
-            </Link>
-            <ThemeSwitch />
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Avatar>
-                  <AvatarImage src={user.profiles[0].avatar} />
-                  <AvatarFallback>
-                    {user.profiles[0].name[0]}
-                  </AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/profile">Profile</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/gallery">Gallery</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/invitations">Invitations</Link>
-                </DropdownMenuItem>
-                {user.role === 'ADMIN' && (
-                  <DropdownMenuItem asChild>
-                    <Link href="/admin">Admin</Link>
-                  </DropdownMenuItem>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-14 items-center">
+        <MobileNav />
+        <div className="mr-4 hidden md:flex">
+          <Link href="/" className="flex items-center space-x-2">
+            <Logo className="h-6 w-6" />
+            <span className="font-bold">Vibe</span>
+          </Link>
+        </div>
+        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+          <nav className="hidden md:flex items-center space-x-4">
+            {user && routes.map((route) => (
+              <Link
+                key={route.href}
+                href={route.href}
+                className={cn(
+                  "text-sm font-medium transition-colors hover:text-primary"
                 )}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => logout()}>
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              >
+                {route.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="flex items-center space-x-4">
+            <ThemeSwitch />
+            <LanguageSwitcher />
+            {user ? (
+              <UserNav />
+            ) : (
+              <div className="hidden md:flex items-center space-x-2">
+                <Link href="/login">
+                  <Button variant="ghost">Login</Button>
+                </Link>
+                <Link href="/register">
+                  <Button>Sign Up</Button>
+                </Link>
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="flex items-center gap-4">
-            <ThemeSwitch /> {/* Add theme switch here */}
-            <Link href="/login">
-              <Button variant="ghost">Login</Button>
-            </Link>
-          </div>
-        )}
+        </div>
       </div>
-    </nav>
+    </header>
   )
 }

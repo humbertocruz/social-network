@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/providers/auth-provider'
-import { useToast } from '@/components/ui/use-toast'
+import { useToast } from '@/hooks/use-toast'
 import {
   Card,
   CardContent,

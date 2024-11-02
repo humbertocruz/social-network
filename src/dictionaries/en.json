@@ -1,0 +1,55 @@
+{
+    "common": {
+      "loading": "Loading...",
+      "error": "Error",
+      "success": "Success",
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "submit": "Submit"
+    },
+    "navigation": {
+      "home": "Home",
+      "dashboard": "Dashboard",
+      "messages": "Messages",
+      "gallery": "Gallery",
+      "radar": "Radar",
+      "top": "Top",
+      "profile": "Profile",
+      "settings": "Settings"
+    },
+    "auth": {
+      "login": "Login",
+      "register": "Register",
+      "logout": "Logout",
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot Password?",
+      "noAccount": "Don't have an account?",
+      "hasAccount": "Already have an account?",
+      "signUp": "Sign Up"
+    },
+    "profile": {
+      "edit": "Edit Profile",
+      "changeAvatar": "Change Avatar",
+      "name": "Name",
+      "bio": "Bio",
+      "type": {
+        "he": "He",
+        "she": "She"
+      },
+      "saveChanges": "Save Changes",
+      "deleteAccount": "Delete Account",
+      "accountSettings": "Account Settings"
+    },
+    "errors": {
+      "required": "This field is required",
+      "invalidEmail": "Invalid email address",
+      "passwordTooShort": "Password must be at least 8 characters",
+      "uploadFailed": "Failed to upload file",
+      "updateFailed": "Failed to update profile",
+      "deleteFailed": "Failed to delete account"
+    }
+  }
+  

@@ -73,6 +73,7 @@ export async function POST(req: Request) {
         username: user.username,
         email: user.email,
         role: user.role,
+        token,
         profiles: user.profiles.map(profile => ({
           id: profile.id,
           name: profile.name,

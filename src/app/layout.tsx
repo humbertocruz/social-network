@@ -8,10 +8,24 @@ import {ThemeProvider} from "@/providers/theme-provider";
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'Vibe - No Lies',
-  description: 'A social network for authentic connections',
+  description: 'Connect authentically with people who matter',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Vibe'
+  },
 }
+
+export const viewport = {
+  test: 'width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'white' },
+    { media: '(prefers-color-scheme: dark)', color: 'black' }
+  ]
+}
+  
 
 export default function RootLayout({
   children,

@@ -2,7 +2,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useToast } from '@/components/ui/toast'
+import { useToast } from '@/hooks/use-toast'
 import {
   Card,
   CardContent,
