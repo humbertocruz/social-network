@@ -7,8 +7,8 @@ import { pt } from '@/locales/pt';
 import { createContext, useContext, useState } from 'react';
 
 const languages = {
-  en,
   pt,
+  en
 };
 
 type Language = keyof typeof languages;
@@ -36,7 +36,7 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
       <IntlProvider
         messages={languages[language]}
         locale={language}
-        defaultLocale="en"
+        defaultLocale="pt"
       >
         {children}
       </IntlProvider>
