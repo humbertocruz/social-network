@@ -38,8 +38,19 @@ model Post {
   userId    String
   user      User      @relation(fields: [userId], references: [id])
   comments  Comment[]
+  likes     Like[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+}
+
+model Like {
+  id        String  @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  postId    String
+  post      Post   @relation(fields: [postId], references: [id])
 }
 
 model Comment {
@@ -117,6 +128,7 @@ model Gallery {
   url       String
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+  ratings   Rating[]
   createdAt DateTime @default(now())
 }
 
@@ -140,9 +152,11 @@ model Rating {
   user      User     @relation("Rater", fields: [userId], references: [id])
   ratedUser User?    @relation("RatedUser", fields: [ratedId], references: [id])
   image     Image?   @relation(fields: [imageId], references: [id])
+  galleryId String?
+  gallery   Gallery?  @relation(fields: [galleryId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
+  
   @@unique([userId, imageId])
   @@unique([userId, ratedId])
 }
@@ -171,6 +185,7 @@ model User {
   gallery         Gallery[]
   receivedRatings Rating[]     @relation("RatedUser")
   givenRatings    Rating[]     @relation("Rater")
+  likes           Like[]
   
   // Invitation relationships
   sentInvitations     Invitation[] @relation("SentInvitations")

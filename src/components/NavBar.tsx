@@ -3,41 +3,44 @@
 
 import { MobileNav } from "./MobileNav"
 import { ThemeSwitch } from "./theme-switch"
-
-import { LanguageSwitcher } from './LanguageSwitcher';
-
+import { LanguageSwitcher } from "./LanguageSwitcher"
 import { Logo } from "./Logo"
 import { UserNav } from "./user-nav"
 import { useAuth } from "@/providers/auth-provider"
 import Link from "next/link"
 import { Button } from "./ui/button"
 import { cn } from "@/lib/utils"
+import { useIntl } from 'react-intl';
 
-const routes = [
-  {
-    href: "/dashboard",
-    label: "Dashboard"
-  },
-  {
-    href: "/messages",
-    label: "Messages"
-  },
-  {
-    href: "/gallery",
-    label: "Gallery"
-  },
-  {
-    href: "/radar",
-    label: "Radar"
-  },
-  {
-    href: "/top",
-    label: "Top"
-  }
-]
+
+
 
 export function Navbar() {
   const { user } = useAuth()
+  const intl = useIntl();
+  const routes = [
+    {
+      href: "/dashboard",
+      label: "Dashboard"
+    },
+    {
+      href: "/messages",
+      label: intl.formatMessage({ id: 'navigation.messages' })
+    },
+    {
+      href: "/gallery",
+      label: "Gallery"
+    },
+    {
+      href: "/radar",
+      label: "Radar"
+    },
+    {
+      href: "/top",
+      label: "Top"
+    }
+  ]
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">

@@ -102,6 +102,7 @@ export function UserNav() {
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </Link>
           </DropdownMenuItem>
+          
           <DropdownMenuItem asChild>
             <Link href="/profile/edit" className="w-full cursor-pointer">
               <UserCog className="mr-2 h-4 w-4" />

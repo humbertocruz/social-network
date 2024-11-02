@@ -26,6 +26,10 @@ export async function GET(req: Request) {
     })
 
     const followingIds = following.map(f => f.followingId)
+    
+
+    // add user id to get own post, fotos and messages
+    followingIds.push(user.id)
 
     // Get posts from followed users
     const posts = await prisma.post.findMany({

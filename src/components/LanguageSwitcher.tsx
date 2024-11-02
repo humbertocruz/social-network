@@ -1,8 +1,7 @@
 // src/components/LanguageSwitcher.tsx
 'use client';
 
-import { useLocale } from 'next-intl';
-import { useRouter, usePathname } from 'next-intl/routing';
+import { useI18n } from '@/providers/i18n-provider';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,17 +13,11 @@ import { Globe } from 'lucide-react';
 
 const languages = {
   en: 'English',
-  pt: 'Português'
+  pt: 'Português',
 };
 
 export function LanguageSwitcher() {
-  const locale = useLocale();
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const switchLanguage = (newLocale: string) => {
-    router.replace(pathname, { locale: newLocale });
-  };
+  const { language, setLanguage } = useI18n();
 
   return (
     <DropdownMenu>
@@ -38,8 +31,8 @@ export function LanguageSwitcher() {
         {Object.entries(languages).map(([key, name]) => (
           <DropdownMenuItem
             key={key}
-            onClick={() => switchLanguage(key)}
-            className={locale === key ? 'bg-accent' : ''}
+            onClick={() => setLanguage(key as keyof typeof languages)}
+            className={language === key ? 'bg-accent' : ''}
           >
             {name}
           </DropdownMenuItem>
