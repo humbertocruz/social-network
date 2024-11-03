@@ -1,7 +1,7 @@
 // src/app/(protected)/events/page.tsx
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
   Card,
   CardContent,
@@ -11,8 +11,9 @@ import {
 import { Calendar } from '@/components/ui/calendar'
 
 export default function EventsPage(props) {
+  console.log(props)
   const [date, setDate] = useState<Date | undefined>(new Date())
-
+  // hgfhg
   return (
     <div className="container py-10">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

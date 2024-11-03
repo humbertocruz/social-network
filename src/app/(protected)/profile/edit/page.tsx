@@ -3,7 +3,6 @@
 
 import { useState } from "react"
 import { useAuth } from "@/providers/auth-provider"
-import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
 import {
   Card,
@@ -33,11 +32,10 @@ import { fetchClient } from '@/lib/fetch-client';
 
 export default function EditProfilePage() {
   const { user, setActiveProfile } = useAuth()
-  const router = useRouter()
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const [uploadingImage, setUploadingImage] = useState(false)
-
+  console.log(uploadingImage)
   const [profiles, setProfiles] = useState(
     user?.profiles.map(profile => ({
       ...profile,
@@ -170,7 +168,7 @@ export default function EditProfilePage() {
               <CardHeader>
                 <CardTitle>Edit {profile.type} Profile</CardTitle>
                 <CardDescription>
-                  Make changes to your profile here. Click save when you're done.
+                  Make changes to your profile here. Click save when you&apos;re done.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">

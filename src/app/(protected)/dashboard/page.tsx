@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/tabs"
 import { PostForm } from '@/components/PostForm'
 import { GalleryCard, MessageCard, PostCard } from '@/components/DashboardCards';
+import { Gallery } from '@prisma/client';
 
 
 interface Post {
@@ -53,7 +54,7 @@ export default function DashboardPage() {
   const { toast } = useToast()
   const [loading, setLoading] = useState(true)
   const [posts, setPosts] = useState<Post[]>([])
-  const [photos, setPhotos] = useState<any[]>([])
+  const [photos, setPhotos] = useState<Gallery[]>([])
   const [messages, setMessages] = useState<Message[]>([])
   const [stats, setStats] = useState({
     followers: 0,
@@ -61,10 +62,11 @@ export default function DashboardPage() {
     posts: 0,
     photos: 0
   })
+  console.log(stats)
 
   useEffect(() => {
     fetchDashboardData()
-  }, [])
+  })
 
   const handlePostCreated = () => {
     // Refresh the feed
@@ -88,6 +90,7 @@ export default function DashboardPage() {
       setMessages(data.messages)
       setStats(data.stats)
     } catch (error) {
+      console.log(error)
       toast({
         title: "Error",
         description: "Failed to load dashboard data",
@@ -140,7 +143,7 @@ export default function DashboardPage() {
 
         <TabsContent value="photos">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {photos && photos.map((gallery:Post, i:number) => {
+          {photos && photos.map((gallery:Gallery, i:number) => {
               
               return (
                 <GalleryCard key={`gallery_${i}`} gallery={gallery} />

@@ -103,6 +103,7 @@ export default function MessagesPage() {
       const data = await response.json()
       setContacts(data)
     } catch (error) {
+      console.log(error)
       toast({
         title: "Error",
         description: "Failed to load contacts",
@@ -122,6 +123,7 @@ export default function MessagesPage() {
       const data = await response.json()
       setMessages(data)
     } catch (error) {
+      console.log(error)
       toast({
         title: "Error",
         description: "Failed to load messages",
@@ -203,6 +205,7 @@ export default function MessagesPage() {
       setImagePreview(null)
       
     } catch (error) {
+      console.log(error)
       toast({
         title: "Error",
         description: "Failed to send message",

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useAuth } from '@/providers/auth-provider'
 import { useToast } from '@/hooks/use-toast'
 import {
@@ -34,7 +34,6 @@ interface Profile {
 }
 
 export default function RegisterPage() {
-  const router = useRouter()
   const { login } = useAuth()
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)

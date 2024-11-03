@@ -17,7 +17,7 @@ export default function ProfileSelectPage() {
     } else if (activeProfile) {
       router.push('/dashboard')
     }
-  }, [user, activeProfile])
+  }, [user, activeProfile, router])
 
   return (
     <div className="container flex items-center justify-center min-h-screen">
