@@ -1,7 +1,5 @@
 // src/app/(protected)/dashboard/page.tsx
-'use client'
-
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useAuth } from '@/providers/auth-provider'
 import { useToast } from '@/hooks/use-toast'
 import {
@@ -62,7 +60,6 @@ export default function DashboardPage() {
     posts: 0,
     photos: 0
   })
-  console.log(stats)
 
   useEffect(() => {
     fetchDashboardData()
@@ -118,6 +115,9 @@ export default function DashboardPage() {
   }
 
   return (
+    <Suspense fallback={
+      <></>
+    }>
     <div className="container py-4 md:py-10">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         
@@ -157,12 +157,13 @@ export default function DashboardPage() {
           {messages && messages.map((message:Message, i:number) => {
               
               return (
-                <MessageCard currentUserId={user?.id} key={`message_${i}`} message={message} />
+                <MessageCard currentUserId={user?user.id:''} key={`message_${i}`} message={message} />
               )
             })}
           </div>
         </TabsContent>
       </Tabs>
     </div>
+    </Suspense>
   )
 }

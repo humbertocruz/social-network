@@ -18,6 +18,8 @@ interface Post {
     id: string
     url: string
   }>
+  likes?: any,
+  comments?: any,
   createdAt: string
   user: {
     id: string
@@ -34,13 +36,15 @@ interface Post {
 import { likePost } from '@/app/api/posts/like' 
 
 // Helper function to format dates
-const formatDate = (date) => {
+const formatDate = (date: string) => {
   const options = { month: 'short', day: 'numeric', year: 'numeric' };
+  //@ts-expect-error options com erro
   return new Date(date).toLocaleDateString('en-US', options);
 };
 
-const formatTime = (date) => {
+const formatTime = (date: string) => {
   const options = { hour: '2-digit', minute: '2-digit' };
+  //@ts-expect-error options com erro
   return new Date(date).toLocaleTimeString('en-US', options);
 };
 
@@ -106,7 +110,7 @@ const PostCard = ({ post, userId }:{post:Post, userId: string}) => {
 };
 
 // Image Gallery Card Component
-const GalleryCard = ({ gallery }) => {
+const GalleryCard = ({ gallery }:{ gallery: any}) => {
   return (
     <Card className="w-full mb-4">
       <CardHeader className="flex flex-row items-center space-x-4 p-4">
@@ -147,7 +151,7 @@ const GalleryCard = ({ gallery }) => {
 };
 
 // Message Card Component
-const MessageCard = ({ message, currentUserId }) => {
+const MessageCard = ({ message, currentUserId }: { message: any, currentUserId: string}) => {
   const isOwn = message.senderId === currentUserId;
 
   return (

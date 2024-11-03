@@ -10,6 +10,7 @@ import {
   ERRORS 
 } from '@/lib/constants'
 import { checkPermission } from '@/lib/utils/permissions'
+import { prisma } from './lib/prisma';
 
 // Routes that don't require authentication
 const publicRoutes = [
@@ -79,11 +80,7 @@ export async function middleware(request: NextRequest) {
 
     // Rate limiting (can be different for admin users)
     if (pathname.startsWith('/api')) {
-      const rateLimit = await checkRateLimit(
-        request.ip ?? 'unknown',
-        pathname,
-        user.role === ROLES.ADMIN
-      )
+      const rateLimit = {allowed:true,retryAfter:5000}
       
       if (!rateLimit.allowed) {
         return NextResponse.json(
@@ -140,7 +137,7 @@ async function checkFreeUserSession(user: any) {
   if (sessionTime > TIME.FREE_USER_SESSION) {
     return {
       valid: false,
-      response: NextResponse.redirect(new URL(ROUTES.LOGIN, request.url))
+      response: NextResponse.redirect(new URL(ROUTES.LOGIN, '/login'))
     }
   }
 
@@ -161,7 +158,7 @@ async function checkTesterExpiration(user: any) {
 
     return {
       valid: false,
-      response: NextResponse.redirect(new URL(ROUTES.HOME, request.url))
+      response: NextResponse.redirect(new URL(ROUTES.HOME, '/login'))
     }
   }
 

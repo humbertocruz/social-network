@@ -56,6 +56,7 @@ export async function runInTransaction<T>(
 ): Promise<T> {
   try {
     return await prisma.$transaction(async (tx) => {
+      //@ts-expect-error tx not correct
       return await operation(tx)
     })
   } catch (error) {

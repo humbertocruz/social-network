@@ -120,11 +120,56 @@ export async function GET(req: Request) {
     }
 
     // Get all contacts with their last message
-    const contacts:any = await prisma.user.findMany({
-      ...baseQuery,
-      orderBy: {
+    const contacts: any = await prisma.user.findMany({
+      where: {
+        id: {
+          not: user.id,
+          notIn: blockedUserIds
+        },
+        // Only include users with active profiles
+        profiles: {
+          some: {}
+        }
+      },
+      select: {
+        id: true,
+        lastOnline: true,
+        role: true,
+        profiles: {
+          select: {
+            id: true,
+            name: true,
+            avatar: true,
+            type: true
+          }
+        },
+        _count: {
+          select: {
+            receivedMsgs: {
+              where: {
+                senderId: user.id,
+                read: false
+              }
+            }
+          }
+        },
+        // Get last message
         messages: {
-          createdAt: 'desc'
+          take: 1,
+          orderBy: {
+            createdAt: 'desc'
+          },
+          where: {
+            OR: [
+              { senderId: user.id },
+              { receiverId: user.id }
+            ]
+          },
+          select: {
+            content: true,
+            createdAt: true,
+            read: true
+          }
         }
       }
     })
@@ -144,7 +189,7 @@ export async function GET(req: Request) {
     }))
 
     // Sort contacts: users with unread messages first, then by last message time
-    const sortedContacts = formattedContacts.sort((a, b) => {
+    const sortedContacts = formattedContacts.sort((a: { unreadCount: number; lastMessage: { createdAt: { getTime: () => number; }; }; }, b: { unreadCount: number; lastMessage: { createdAt: { getTime: () => number; }; }; }) => {
       if (a.unreadCount !== b.unreadCount) {
         return b.unreadCount - a.unreadCount
       }

@@ -20,7 +20,7 @@ export function ProfileSelectModal() {
   const router = useRouter()
 
   // Show modal if user is logged in but no active profile is selected
-  const showModal = user && !activeProfile
+  const showModal = (user && !activeProfile) || false
 
   const handleProfileSelect = (profile: any) => {
     setActiveProfile(profile)
@@ -38,7 +38,7 @@ export function ProfileSelectModal() {
 
   return (
     <Dialog open={showModal} onOpenChange={() => {}}>
-      <DialogContent className="sm:max-w-md" showClose={false}>
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Choose Your Profile</DialogTitle>
           <DialogDescription>

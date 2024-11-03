@@ -62,7 +62,7 @@ export async function GET(req: Request) {
       const averageRating = allRatings.reduce((acc, curr) => acc + curr.value, 0) / allRatings.length
       
       // Get top rated media
-      const topMedia = user.gallery.reduce((best, curr) => {
+      const topMedia = user.gallery.reduce((best:any, curr) => {
         const avgRating = curr.ratings.reduce((sum, r) => sum + r.value, 0) / curr.ratings.length
         return avgRating > (best?.avgRating || 0) ? { ...curr, avgRating } : best
       }, null)

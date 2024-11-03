@@ -15,9 +15,9 @@ export function usePermissions() {
   }
 
   return {
-    can: (feature: string) => checkPermission(user.role, feature),
-    canAll: (features: string[]) => checkPermissions(user.role, features),
-    permissions: getRolePermissions(user.role),
+    can: (feature: string) => checkPermission(user.role as any, feature),
+    canAll: (features: string[]) => checkPermissions(user.role as any, features),
+    permissions: getRolePermissions(user.role as any),
     isLoading: false
   }
 }
