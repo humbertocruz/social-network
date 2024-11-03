@@ -47,7 +47,6 @@
     "react-day-picker": "8.10.1",
     "react-dom": "^18",
     "react-hook-form": "^7.53.1",
-    "react-intl": "^6.8.5",
     "recharts": "^2.13.2",
     "resend": "^4.0.1-alpha.0",
     "tailwind-merge": "^2.5.4",

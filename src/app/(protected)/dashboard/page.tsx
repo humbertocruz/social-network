@@ -10,21 +10,9 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import Image from 'next/image'
-import Link from 'next/link'
-import { MessageSquare, Heart, Image as ImageIcon, Users, Calendar } from 'lucide-react'
-import { format } from 'date-fns'
 import { PostForm } from '@/components/PostForm'
+import { GalleryCard, MessageCard, PostCard } from '@/components/DashboardCards';
+
 
 interface Post {
   id: string
@@ -129,7 +117,7 @@ export default function DashboardPage() {
   return (
     <div className="container py-4 md:py-10">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {/* Stats cards */}
+        
       </div>
 
       <Tabs defaultValue="feed" className="space-y-4 md:space-y-6">
@@ -142,19 +130,33 @@ export default function DashboardPage() {
         <TabsContent value="feed">
           <PostForm onPostCreated={handlePostCreated} />
           <div className="grid gap-4 md:gap-6">
-            {/* Post cards */}
+            {posts && posts.map((post:Post, i:number) => {
+              return (
+                <PostCard key={`post_${i}`} post={post} userId={user?.id||''} />
+              )
+            })}
           </div>
         </TabsContent>
 
         <TabsContent value="photos">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {/* Photo cards */}
+          {photos && photos.map((gallery:Post, i:number) => {
+              
+              return (
+                <GalleryCard key={`gallery_${i}`} gallery={gallery} />
+              )
+            })}
           </div>
         </TabsContent>
 
         <TabsContent value="messages">
           <div className="space-y-4">
-            {/* Message cards */}
+          {messages && messages.map((message:Message, i:number) => {
+              
+              return (
+                <MessageCard currentUserId={user?.id} key={`message_${i}`} message={message} />
+              )
+            })}
           </div>
         </TabsContent>
       </Tabs>

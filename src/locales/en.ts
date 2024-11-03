@@ -1,5 +1,5 @@
 // src/locales/en.ts
-export const en = {
+const en = {
     navigation: {
       home: 'Home',
       dashboard: 'Dashboard',
@@ -14,13 +14,22 @@ export const en = {
       login: 'Login',
       register: 'Register',
       logout: 'Logout',
-      email: 'Email',
+      username: 'Username',
       password: 'Password',
       forgotPassword: 'Forgot Password?',
       noAccount: "Don't have an account?",
       hasAccount: 'Already have an account?',
-      signUp: 'Sign Up'
+      signUp: 'Sign Up',
+      description: 'Type your data to aceess',
+      'username-placeholder':'Type your username',
+      'password-placeholder':'Type your password'
+  
     },
+    theme:{
+      light:'Light',
+      dark:'Dark',
+      system: 'System'
+    },  
     profile: {
       edit: 'Edit Profile',
       changeAvatar: 'Change Avatar',
@@ -34,5 +43,6 @@ export const en = {
       deleteAccount: 'Delete Account',
       accountSettings: 'Account Settings'
     }
-  } as const;
+  }
+  export default en
   

@@ -63,29 +63,6 @@ export async function runInTransaction<T>(
   }
 }
 
-// Example usage of transaction utility:
-/*
-async function createUserWithProfiles(data: any) {
-  return await runInTransaction(async (tx) => {
-    const user = await tx.user.create({
-      data: {
-        email: data.email,
-        password: data.password,
-      },
-    })
-
-    const profiles = await tx.profile.createMany({
-      data: data.profiles.map((profile: any) => ({
-        ...profile,
-        userId: user.id,
-      })),
-    })
-
-    return { user, profiles }
-  })
-}
-*/
-
 // Query helper with automatic error handling
 export async function prismaQuery<T>(
   operation: () => Promise<T>,
@@ -173,12 +150,3 @@ export async function withPrisma<T>(
   }
 }
 
-// Example usage of withPrisma:
-/*
-export async function GET(request: Request) {
-  return await withPrisma(async (prisma) => {
-    const users = await prisma.user.findMany()
-    return new Response(JSON.stringify(users))
-  })
-}
-*/

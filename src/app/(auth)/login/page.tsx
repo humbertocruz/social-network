@@ -10,7 +10,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -27,7 +26,7 @@ import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import Link from 'next/link'
+import useDic from '@/components/dic';
 
 const loginSchema = z.object({
   username: z.string().min(1, {
@@ -45,6 +44,7 @@ export default function LoginPage() {
   const { login } = useAuth()
   const { toast } = useToast()
   const router = useRouter()
+  const dic = useDic()
 
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
@@ -88,6 +88,8 @@ export default function LoginPage() {
     }
   }
 
+  const loginLabel = dic('auth.login')
+
   return (
     <div className="container relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
@@ -108,9 +110,9 @@ export default function LoginPage() {
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <Card className="border-0 shadow-none">
             <CardHeader className="space-y-1">
-              <CardTitle className="text-2xl font-bold">Login</CardTitle>
+              <CardTitle className="text-2xl font-bold">{dic('auth.login')}</CardTitle>
               <CardDescription>
-                Enter your username and password to access your account
+                {dic('auth.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -121,10 +123,10 @@ export default function LoginPage() {
                     name="username"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Username</FormLabel>
+                        <FormLabel>{dic('auth.username')}</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Enter your username"
+                            placeholder={dic('auth.username-placeholder')}
                             disabled={isLoading}
                             {...field}
                           />
@@ -138,11 +140,11 @@ export default function LoginPage() {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel>{dic('auth.password')}</FormLabel>
                         <FormControl>
                           <Input
                             type="password"
-                            placeholder="Enter your password"
+                            placeholder={dic('auth.password-placeholder')}
                             disabled={isLoading}
                             {...field}
                           />
@@ -159,26 +161,15 @@ export default function LoginPage() {
                     {isLoading ? (
                       <div className="flex items-center gap-2">
                         <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                        <span>Signing in...</span>
+                        <span>{dic('auth.loading')}</span>
                       </div>
                     ) : (
-                      "Sign in"
+                      `${loginLabel}`
                     )}
                   </Button>
                 </form>
               </Form>
             </CardContent>
-            <CardFooter>
-              <div className="text-sm text-muted-foreground">
-                Don't have an account?{' '}
-                <Link
-                  href="/register"
-                  className="text-primary underline-offset-4 hover:underline"
-                >
-                  Sign up
-                </Link>
-              </div>
-            </CardFooter>
           </Card>
         </div>
       </div>

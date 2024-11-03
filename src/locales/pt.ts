@@ -1,5 +1,5 @@
 // src/locales/pt.ts
-export const pt = {
+const pt = {
   navigation: {
     home: 'Início',
     dashboard: 'Painel',
@@ -14,12 +14,21 @@ export const pt = {
     login: 'Entrar',
     register: 'Cadastrar',
     logout: 'Sair',
-    email: 'Email',
+    username: 'Usuário',
     password: 'Senha',
     forgotPassword: 'Esqueceu a senha?',
-    noAccount: 'Não tem uma conta?',
-    hasAccount: 'Já tem uma conta?',
-    signUp: 'Cadastre-se'
+    signUp: 'Cadastre-se',
+    description: 'Digite seus dados para conectar',
+    'username-placeholder':'Digite seu usuário',
+    'password-placeholder':'Digite sua senha'
+  },
+  theme:{
+    light:'Claro',
+    dark:'Escuro',
+    system: 'Sistema'
+  },
+  language:{
+    switch:'Altere o Tema'
   },
   profile: {
     edit: 'Editar Perfil',
@@ -34,4 +43,5 @@ export const pt = {
     deleteAccount: 'Excluir Conta',
     accountSettings: 'Configurações da Conta'
   }
-} as const;
+}
+export default pt

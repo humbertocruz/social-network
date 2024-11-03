@@ -29,7 +29,6 @@ export async function GET(request: Request) {
         _count: {
           select: {
             sentInvitations: true,
-            invitedUsers: true
           }
         }
       }

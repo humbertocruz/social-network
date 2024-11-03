@@ -28,8 +28,7 @@ export async function POST(req: Request) {
         userId: user.id,
         images: data.images ? {
           create: data.images.map(url => ({
-            url,
-            type: 'image'
+            url
           }))
         } : undefined
       },

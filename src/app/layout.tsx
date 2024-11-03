@@ -4,7 +4,6 @@ import { Navbar } from '@/components/NavBar'
 import { Toaster } from '@/components/ui/toaster'
 import { AuthProvider } from '@/providers/auth-provider'
 import { ThemeProvider } from "@/providers/theme-provider";
-import { I18nProvider } from '@/providers/i18n-provider';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -36,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={inter.className}>
-        <I18nProvider>
+        
           <AuthProvider>
             <ThemeProvider>
             <main>
@@ -46,7 +45,7 @@ export default function RootLayout({
             </ThemeProvider>
             <Toaster />
           </AuthProvider>
-        </I18nProvider>
+        
       </body>
     </html>
   )

@@ -10,34 +10,31 @@ import { useAuth } from "@/providers/auth-provider"
 import Link from "next/link"
 import { Button } from "./ui/button"
 import { cn } from "@/lib/utils"
-import { useIntl } from 'react-intl';
-
-
-
+import useDic from "./dic"
 
 export function Navbar() {
   const { user } = useAuth()
-  const intl = useIntl();
+  const dic = useDic()
   const routes = [
     {
       href: "/dashboard",
-      label: "Dashboard"
+      label: dic('navigation.dashboard')
     },
     {
       href: "/messages",
-      label: intl.formatMessage({ id: 'navigation.messages' })
+      label: dic('navigation.messages')
     },
     {
       href: "/gallery",
-      label: "Gallery"
+      label: dic('navigation.gallery')
     },
     {
       href: "/radar",
-      label: "Radar"
+      label: dic('navigation.radar')
     },
     {
       href: "/top",
-      label: "Top"
+      label: dic('navigation.top')
     }
   ]
 
@@ -64,19 +61,26 @@ export function Navbar() {
                 {route.label}
               </Link>
             ))}
+            <Link
+                href={'/admin'}
+                className={cn(
+                  "text-sm font-medium transition-colors hover:text-primary"
+                )}
+              >
+                Admin
+            </Link>
           </nav>
           <div className="flex items-center space-x-4">
             <ThemeSwitch />
             <LanguageSwitcher />
             {user ? (
-              <UserNav />
+              <>
+                <UserNav />
+              </>
             ) : (
               <div className="hidden md:flex items-center space-x-2">
                 <Link href="/login">
-                  <Button variant="ghost">Login</Button>
-                </Link>
-                <Link href="/register">
-                  <Button>Sign Up</Button>
+                  <Button variant="ghost">{dic('auth.login')}</Button>
                 </Link>
               </div>
             )}
