@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma'
 import { verifyAuth } from '@/lib/auth'
 import { ERRORS, ROLE_FEATURES } from '@/lib/constants'
 import { checkPermission } from '@/lib/utils/permissions'
+import { User } from '@prisma/client';
 
 export async function GET(req: Request) {
   try {
@@ -119,7 +120,7 @@ export async function GET(req: Request) {
     }
 
     // Get all contacts with their last message
-    const contacts = await prisma.user.findMany({
+    const contacts:any = await prisma.user.findMany({
       ...baseQuery,
       orderBy: {
         messages: {
@@ -129,7 +130,7 @@ export async function GET(req: Request) {
     })
 
     // Format the response
-    const formattedContacts = contacts.map(contact => ({
+    const formattedContacts = contacts.map((contact: any) => ({
       id: contact.id,
       profiles: contact.profiles,
       lastOnline: contact.lastOnline,

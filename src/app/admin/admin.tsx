@@ -188,7 +188,7 @@ const EventsTable = () => {
   );
 };
 
-const ActionMenu = ({ onEdit, onDelete }) => {
+const ActionMenu = ({ onEdit, onDelete }: { onEdit: any, onDelete: any}) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

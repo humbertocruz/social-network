@@ -6,6 +6,7 @@ import { verifyAuth } from '@/lib/auth'
 import { z } from 'zod'
 
 const eventSchema = z.object({
+  id: z.string(),
   title: z.string().min(1),
   description: z.string(),
   date: z.string().transform(str => new Date(str))

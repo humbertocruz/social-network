@@ -6,6 +6,7 @@ import { z } from 'zod'
 
 const registerSchema = z.object({
   email: z.string().email(),
+  username: z.string().min(8),
   password: z.string().min(8),
   code: z.string().length(6),
   profiles: z.array(z.object({
@@ -19,7 +20,7 @@ const registerSchema = z.object({
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-    const { email, password, code, profiles } = registerSchema.parse(body)
+    const { email, password, username, code, profiles } = registerSchema.parse(body)
 
     // Verify invitation
     const invitation = await prisma.invitation.findFirst({
@@ -55,6 +56,18 @@ export async function POST(req: Request) {
       )
     }
 
+    // Check if username exists
+    const existingUserName = await prisma.user.findUnique({
+      where: { username }
+    })
+
+    if (existingUserName) {
+      return NextResponse.json(
+        { error: 'Username already exists' },
+        { status: 400 }
+      )
+    }
+
     // Create user and update invitation in a transaction
     const user = await prisma.$transaction(async (tx) => {
       // Calculate invitation level and path
@@ -67,6 +80,7 @@ export async function POST(req: Request) {
       const newUser = await tx.user.create({
         data: {
           email,
+          username,
           password: await bcrypt.hash(password, 12),
           invitationLevel,
           invitationPath,
