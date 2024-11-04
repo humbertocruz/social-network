@@ -61,14 +61,14 @@ export function Navbar() {
                 {route.label}
               </Link>
             ))}
-            <Link
+            {user && <Link
                 href={'/admin'}
                 className={cn(
                   "text-sm font-medium transition-colors hover:text-primary"
                 )}
               >
                 Admin
-            </Link>
+            </Link>}
           </nav>
           <div className="flex items-center space-x-4">
             <ThemeSwitch />
