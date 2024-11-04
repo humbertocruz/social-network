@@ -61,7 +61,7 @@ export function Navbar() {
                 {route.label}
               </Link>
             ))}
-            {user && <Link
+            {user && user?.role === 'ADMIN' && <Link
                 href={'/admin'}
                 className={cn(
                   "text-sm font-medium transition-colors hover:text-primary"

@@ -1,6 +1,8 @@
 'use client'
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import {
   Card,
   CardContent,
@@ -27,9 +29,11 @@ import { Input } from "@/components/ui/input";
 import { MoreHorizontal, Search, Plus } from "lucide-react";
 import Image from 'next/image';
 
-const AdminDashboardClient = () => {
+const AdminDashboardClient = (props:any) => {
+  const users = JSON.parse(props.users)
   const [activeTab, setActiveTab] = useState("users");
   const [searchQuery, setSearchQuery] = useState("");
+  console.log(users)
   return (
     <div className="container mx-auto p-6">
       <Card className="w-full">
@@ -63,7 +67,7 @@ const AdminDashboardClient = () => {
             </div>
 
             <TabsContent value="users">
-              <UsersTable />
+              <UsersTable users={users}/>
             </TabsContent>
             <TabsContent value="posts">
               <PostsTable />
@@ -81,7 +85,11 @@ const AdminDashboardClient = () => {
   );
 };
 
-const UsersTable = () => {
+const UsersTable = (users:any) => {
+  const handleDelete = (userId: string) => {
+    // TODO: Implement user deletion
+    //setUsers(users.filter(user => user.id !== userId));
+  };
   return (
     <Table>
       <TableHeader>
@@ -94,16 +102,17 @@ const UsersTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {/* Replace with actual data mapping */}
-        <TableRow>
-          <TableCell>johndoe</TableCell>
-          <TableCell>john@example.com</TableCell>
-          <TableCell>FREE</TableCell>
-          <TableCell>{new Date().toLocaleDateString()}</TableCell>
-          <TableCell>
-            <ActionMenu onEdit={() => {}} onDelete={() => {}} />
-          </TableCell>
-        </TableRow>
+        {users && users.map((user:any) => (
+          <TableRow key={user.id}>
+            <TableCell>{user.username}</TableCell>
+            <TableCell>{user.email}</TableCell>
+            <TableCell>{user.role}</TableCell>
+            <TableCell>{user.createdAt.toLocaleDateString()}</TableCell>
+            <TableCell>
+              <ActionMenu userId={user.id} onDelete={() => handleDelete(user.id)} />
+            </TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   );
@@ -188,7 +197,8 @@ const EventsTable = () => {
   );
 };
 
-const ActionMenu = ({ onEdit, onDelete }: { onEdit: any, onDelete: any}) => {
+const ActionMenu = ({ userId, onDelete }: { userId: string, onDelete: () => void }) => {
+  const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -197,7 +207,9 @@ const ActionMenu = ({ onEdit, onDelete }: { onEdit: any, onDelete: any}) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={onEdit}>Edit</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push(`/admin/users/edit/${userId}`)}>
+          <Link href={`/admin/users/edit/${userId}`}>Edit</Link>
+        </DropdownMenuItem>
         <DropdownMenuItem
           onClick={onDelete}
           className="text-red-600"
