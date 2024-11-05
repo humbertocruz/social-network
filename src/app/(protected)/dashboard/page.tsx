@@ -42,12 +42,18 @@ interface Message {
 
 const fetchDashboardData = async () => {
   try {
-    const session =  await getSession()
-    const token = cookies().get('token')?.value
-    const response = await fetch('http://localhost:3000/api/dashboard', {
+    const cookiesVars = await cookies()
+    const token = cookiesVars.get('token')?.value
+    // Construct the URL using the URL API
+    const url = new URL('/api/dashboard', process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000');
+
+    const response = await fetch(url.toString(), {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      method: 'GET',
+      cache: 'no-store'
     })
     if (!response.ok) throw new Error('Failed to fetch dashboard data')
     const data = await response.json()
@@ -57,9 +63,12 @@ const fetchDashboardData = async () => {
   }
 }
 
+export const revalidate = 0
+
 export default async function DashboardPage() {
   const data = await fetchDashboardData()
   const user = getSession()
+  return null
   return (
     <Suspense fallback={
       <></>

@@ -30,10 +30,11 @@ import { MoreHorizontal, Search, Plus } from "lucide-react";
 import Image from 'next/image';
 
 const AdminDashboardClient = (props:any) => {
-  const users = JSON.parse(props.users)
+  const { users } = props
+  const route = useRouter()
   const [activeTab, setActiveTab] = useState("users");
   const [searchQuery, setSearchQuery] = useState("");
-  console.log(users)
+
   return (
     <div className="container mx-auto p-6">
       <Card className="w-full">
@@ -85,10 +86,12 @@ const AdminDashboardClient = (props:any) => {
   );
 };
 
-const UsersTable = (users:any) => {
+const UsersTable = ({users}:any) => {
+  const route = useRouter()
   const handleDelete = (userId: string) => {
     // TODO: Implement user deletion
     //setUsers(users.filter(user => user.id !== userId));
+    route.refresh()
   };
   return (
     <Table>
@@ -102,7 +105,8 @@ const UsersTable = (users:any) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {users && users.map((user:any) => (
+        {users.map((user:any) => {
+          return (
           <TableRow key={user.id}>
             <TableCell>{user.username}</TableCell>
             <TableCell>{user.email}</TableCell>
@@ -112,7 +116,7 @@ const UsersTable = (users:any) => {
               <ActionMenu userId={user.id} onDelete={() => handleDelete(user.id)} />
             </TableCell>
           </TableRow>
-        ))}
+        )})}
       </TableBody>
     </Table>
   );

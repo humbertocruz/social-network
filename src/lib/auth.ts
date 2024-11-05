@@ -50,7 +50,8 @@ export async function verifyAuth(token: string) {
 }
 
 export async function getSession() {
-  const token = cookies().get('token')?.value
+  const cookiesVars = await cookies()
+  const token = cookiesVars.get('token')?.value
 
   if (!token) return null
 

@@ -10,8 +10,7 @@ import {
 } from '@/components/ui/card'
 import { Calendar } from '@/components/ui/calendar'
 
-export default function EventsPage(props: any) {
-  console.log(props)
+export default function EventsPage(props) {
   const [date, setDate] = useState<Date | undefined>(new Date())
   // hgfhg
   return (

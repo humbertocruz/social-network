@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,22 +12,27 @@ import setUserAndProfiles from './actions';
 const UserForm = (user:any) => {
   const router = useRouter();
 
-  console.log(user)
+  const [id, setId] = useState('')
+  const [username, setUserName] = useState('')
+  const [email, setEmail] = useState('')
+  const [role, setRole] = useState('')
 
-  const [username, setUserName] = useState(user.username)
-  const [email, setEmail] = useState(user.email)
-  const [role, setRole] = useState(user.role)
+  useEffect(()=>{
+    setId(user.user.id)
+    setUserName(user.user.username)
+    setEmail(user.user.email)
+    setRole(user.user.role)
+  },[user])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: Implement API call to update user
     setUserAndProfiles({
-        id: user.id,
+        id: id,
         username,
         email,
         role
     })
-    console.log('User updated:', user);
     router.push('/admin');
   };
   
@@ -70,7 +75,7 @@ const UserForm = (user:any) => {
                 <label htmlFor="role" className="block text-sm font-medium text-gray-700">
                   Role
                 </label>
-                <Select value={user.role} onValueChange={(v)=>setRole(v)}>
+                <Select value={role} onValueChange={(v)=>setRole(v)}>
                   <SelectTrigger className="w-full mt-1">
                     <SelectValue placeholder="Select a role" />
                   </SelectTrigger>

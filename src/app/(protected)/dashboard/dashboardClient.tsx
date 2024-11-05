@@ -9,10 +9,11 @@ import {
 } from "@/components/ui/tabs"
 import { PostForm } from '@/components/PostForm'
 import { GalleryCard, MessageCard, PostCard } from '@/components/DashboardCards';
-import { Gallery, User } from '@prisma/client';
+import { Gallery, Post, User } from '@prisma/client';
+import { useRouter } from 'next/navigation';
 
 export default function DashboardClient({data,user}:{data:any,user:any}) {
-  data = JSON.parse(data)
+  const route = useRouter()
   const { posts, photos, messages, stats } = data
   if (!data) {
     return (
@@ -30,7 +31,9 @@ export default function DashboardClient({data,user}:{data:any,user:any}) {
     )
   }
 
-  const handlePostCreated = () => {}
+  const handlePostCreated = () => {
+    route.refresh()
+  }
 
   return (
     <div className="container py-4 md:py-10">

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import UserForm from './userForm';
 import { prisma } from '@/lib/prisma';
+
 const getUser = async (id:string) => {
   const user = await prisma.user.findUnique({
     where: {
@@ -9,10 +10,20 @@ const getUser = async (id:string) => {
   })
   return user
 }
+
+export const revalidate = 0
+
 const EditUserPage = async ({ params }: { params: { id: string } }) => {
-  const user = await getUser(params.id);
+  const { id } = await params
+  const user = await getUser(id);
+  if (!user) {
+    return <div>User not found</div>;
+  }
+  
   return (
-    <UserForm user={user} />
+    <Suspense fallback={<div>Loading...</div>}>
+      <UserForm user={user} />
+    </Suspense>
   );
 };
 

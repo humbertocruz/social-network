@@ -30,12 +30,14 @@ import {
 import { Loader2 } from "lucide-react"
 import { fetchClient } from '@/lib/fetch-client';
 
+export const revalidate = 0
+
 export default function EditProfilePage() {
   const { user, setActiveProfile } = useAuth()
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const [uploadingImage, setUploadingImage] = useState(false)
-  console.log(uploadingImage)
+  
   const [profiles, setProfiles] = useState(
     user?.profiles.map(profile => ({
       ...profile,

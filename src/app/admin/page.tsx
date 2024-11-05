@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/auth';
 import AdminDashboardClient from './admin';
@@ -11,8 +11,11 @@ const AdminDashboard = async () => {
       createdAt: 'desc'
     }
   })
+
   return (
-    <AdminDashboardClient user={user} users={JSON.stringify(users)} />
+    <Suspense fallback={<div>Loading...</div>}>
+      <AdminDashboardClient user={user} users={users} />
+    </Suspense>
   )
 }
 

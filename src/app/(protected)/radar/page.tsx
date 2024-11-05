@@ -28,7 +28,7 @@ interface NearbyUser {
 
 export default function RadarPage() {
   const { user } = useAuth()
-  console.log(user)
+  
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const [updating, setUpdating] = useState(false)
